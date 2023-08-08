@@ -1,4 +1,7 @@
 # Some files to be ignored by git
 
+# Ignore pycache directory
+__pycache__/
+
 # Backup files created by Aspell command
 *.bak
