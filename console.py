@@ -17,6 +17,32 @@ class HBNBCommand(cmd.Cmd):
 
     # COMMANDS
 
+    def do_all(self, line):
+        """
+        Print all string representation of all instances
+        based or not on the class name.
+        """
+        args = HBNBCommand.split_str(line)
+
+        objs = list()
+        if len(args[0]) > 0:
+            class_name = args[0]
+            if class_name not in HBNBCommand.classes:
+                print("** class doesn't exist **")
+                return
+
+            if storage.all() is not None:
+                for value in storage.all().values():
+                    if value.__class__.__name__ == class_name:
+                        objs.append(str(value))
+
+        else:
+            if storage.all() is not None:
+                for value in storage.all().values():
+                    objs.append(str(value))
+
+        print(objs)
+
     def do_destroy(self, line):
         """
         Delete an instance base on class name and id
@@ -152,6 +178,15 @@ class HBNBCommand(cmd.Cmd):
         return string.split(sep=delim)
 
     # HELP
+
+    def help_all(self):
+        """
+        Provide documentation on the 'all' command
+        """
+        print("Print all string representation of all instances")
+        print("based or not on the class name")
+        print("Usage:\n\tall [<class name>]")
+        print()
 
     def help_destroy(self):
         """
