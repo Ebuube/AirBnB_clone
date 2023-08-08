@@ -5,6 +5,7 @@ This module defines the console to manage the AirBnB clone project
 import cmd
 import sys
 from models.base_model import BaseModel
+from models import storage
 
 
 class HBNBCommand(cmd.Cmd):
@@ -15,6 +16,38 @@ class HBNBCommand(cmd.Cmd):
     classes = {"BaseModel": BaseModel}
 
     # COMMANDS
+
+    def do_show(self, line):
+        """
+        Print the string representation of an instance
+        based on the class name and id
+        """
+        args = HBNBCommand.split_str(line)
+
+        if len(args[0]) > 0:
+            class_name = args[0]
+        else:
+            print("** class name missing **")
+            return
+
+        if class_name not in HBNBCommand.classes:
+            print("** class doesn't exist **")
+            return
+
+        try:
+            arg_id = args[1]
+        except IndexError:
+            print("** instance id missing **")
+            return
+
+        obj_key = class_name + arg_id
+
+        # Search for obj_key in non-empty storage
+        if (not storage.all()) or (obj_key not in storage.all()):
+            print("** no instance found **")
+            return
+        else:
+            print((storage.all())[obj_key])
 
     def do_create(self, line):
         """
@@ -85,6 +118,15 @@ class HBNBCommand(cmd.Cmd):
         return string.split(sep=delim)
 
     # HELP
+
+    def help_show(self):
+        """
+        Provide documentatio on the 'show' command
+        """
+        print("Prints the string representation of an instance")
+        print("based on the class name and id")
+        print("Usage:\n\tshow <class name> <id")
+        print()
 
     def help_create(self):
         """
