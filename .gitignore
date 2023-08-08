@@ -1,0 +1,4 @@
+# Some files to be ignored by git
+
+# Backup files created by Aspell command
+*.bak
