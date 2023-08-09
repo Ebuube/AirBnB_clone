@@ -2,7 +2,6 @@
 import uuid
 from datetime import datetime
 from models import storage
-# The variable 'storage' was used but I don't think it has been created
 
 
 class BaseModel:
