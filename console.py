@@ -78,6 +78,23 @@ class HBNBCommand(cmd.Cmd):
             print("** value missing **")
             return
 
+        # Cast value to the required type
+        # The order must be respected
+        """
+        if val == int(val):
+            val = int(val)
+        if val == float(val):
+            val = float(val)
+        """
+        try:
+            test = float(val)
+            if test == int(test):
+                val = int(test)
+            else:
+                val = test
+        except ValueError:
+            pass
+
         # Update the instance
         setattr(obj, attr, val)
         obj.save()
