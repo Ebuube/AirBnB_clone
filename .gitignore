@@ -1,5 +1,8 @@
 # Some files to be ignored by git
 
+# Storage files
+*.json
+
 # Ignore pycache directory
 __pycache__/
 

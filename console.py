@@ -66,7 +66,8 @@ class HBNBCommand(cmd.Cmd):
             print("** instance id missing **")
             return
 
-        obj_key = class_name + arg_id
+        #   obj_key = class_name + arg_id
+        obj_key = HBNBCommand.make_key(class_name, arg_id)
 
         # Search for obj_key in non-empty storage
         if (not storage.all()) or (obj_key not in storage.all()):
@@ -100,7 +101,8 @@ class HBNBCommand(cmd.Cmd):
             print("** instance id missing **")
             return
 
-        obj_key = class_name + arg_id
+        #   obj_key = class_name + '.' + arg_id
+        obj_key = HBNBCommand.make_key(class_name, arg_id)
 
         # Search for obj_key in non-empty storage
         if (not storage.all()) or (obj_key not in storage.all()):
@@ -127,7 +129,8 @@ class HBNBCommand(cmd.Cmd):
             print("** class doesn't exist **")
             return
 
-        new = BaseModel()
+        #   new = BaseModel()
+        new = HBNBCommand.classes[class_name]()
         new.save()
         print(new.id)
 
@@ -176,6 +179,15 @@ class HBNBCommand(cmd.Cmd):
         """
         delim = ' '     # whitespace as delimiter
         return string.split(sep=delim)
+
+    @staticmethod
+    def make_key(cls_name, obj_id):
+        """
+        Create a storage engine key from a class name and object id
+        """
+        delim = '.'
+
+        return str(cls_name + delim + obj_id)
 
     # HELP
 
