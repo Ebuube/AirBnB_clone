@@ -22,7 +22,7 @@ class test_BaseModel(unittest.TestCase):
         Initialize the test instance
         """
         super().__init__(*args, **kwargs)
-        self.value = Basemodel
+        self.value = BaseModel
         self.name = self.value.__name__
 
     def setUp(self):
@@ -56,3 +56,16 @@ class test_BaseModel(unittest.TestCase):
                     os.remove(file_path)
                     if config.setUp_verbose is True:
                         print("Removed: '{}'".format(file_path))
+
+    def test_check_pep8_compliance(self):
+        """
+        Ensure all '*.py' files are pep8 (or pycodestyle) compliant
+        It is ran only ``once`` during a test
+        """
+        if config.pep8_checked is False:
+            path = "./"
+            style = pep8.StyleGuide(quite=False, show_source=True,
+                                    verbose=config.pep8_verbose)
+            result = style.check_files(paths=path)
+            self.assertEqual(result.total_errors, 0, "Fix pep8")
+            config.pep8_checked = True
