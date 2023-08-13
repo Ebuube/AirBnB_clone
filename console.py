@@ -4,6 +4,7 @@ This module defines the console to manage the AirBnB clone project
 """
 import cmd
 import sys
+import shlex
 from models.base_model import BaseModel
 from models import storage
 
@@ -25,7 +26,7 @@ class HBNBCommand(cmd.Cmd):
         args = HBNBCommand.split_str(line)
 
         objs = list()
-        if len(args[0]) > 0:
+        if len(args) > 0:
             class_name = args[0]
             if class_name not in HBNBCommand.classes:
                 print("** class doesn't exist **")
@@ -177,8 +178,8 @@ class HBNBCommand(cmd.Cmd):
         """
         Split a string into a list
         """
-        delim = ' '     # whitespace as delimiter
-        return string.split(sep=delim)
+        args = shlex.split(string, posix=True, comments=False)
+        return args
 
     @staticmethod
     def make_key(cls_name, obj_id):
