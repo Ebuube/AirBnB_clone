@@ -18,6 +18,58 @@ class HBNBCommand(cmd.Cmd):
 
     # COMMANDS
 
+    def do_update(self, line):
+        """
+        Update an instance based on the 'class name' and 'id'
+        by adding or updating attribute
+        """
+        args = HBNBCommand.split_str(line)
+
+        if len(args) > 0:
+            class_name = args[0]
+            if class_name not in HBNBCommand.classes:
+                print("** class doesn't exist **")
+                return
+        else:
+            print("** class name missing **")
+            return
+
+        if class_name not in HBNBCommand.classes:
+            print("** class doesn't exist **")
+            return
+
+        try:
+            arg_id = args[1]
+        except IndexError:
+            print("** instance id missing **")
+            return
+
+        #   obj_key = class_name + '.' + arg_id
+        obj_key = HBNBCommand.make_key(class_name, arg_id)
+
+        # Search for obj_key in non-empty storage
+        try:
+            obj = storage.all()[obj_key]
+        except KeyError:
+            print("** no instance found **")
+            return
+
+        # Ensure attribute name and value are present
+        try:
+            attr = args[2]
+        except IndexError:
+            print("** attribute name missing **")
+            return
+        try:
+            val = args[3]
+        except IndexError:
+            print("** value missing **")
+            return
+
+        # Update the instance
+        setattr(obj, attr, val)
+        obj.save()
+
     def do_all(self, line):
         """
         Print all string representation of all instances
@@ -51,7 +103,7 @@ class HBNBCommand(cmd.Cmd):
         """
         args = HBNBCommand.split_str(line)
 
-        if len(args[0]) > 0:
+        if len(args) > 0:
             class_name = args[0]
         else:
             print("** class name missing **")
@@ -86,7 +138,7 @@ class HBNBCommand(cmd.Cmd):
         """
         args = HBNBCommand.split_str(line)
 
-        if len(args[0]) > 0:
+        if len(args) > 0:
             class_name = args[0]
         else:
             print("** class name missing **")
@@ -120,7 +172,7 @@ class HBNBCommand(cmd.Cmd):
         """
         args = HBNBCommand.split_str(line)
 
-        if len(args[0]) > 0:
+        if len(args) > 0:
             class_name = args[0]
         else:
             print("** class name missing **")
@@ -192,12 +244,21 @@ class HBNBCommand(cmd.Cmd):
 
     # HELP
 
+    def help_update(self):
+        """
+        Provide documentation on the 'update' command
+        """
+        print("Update an instance based on class name and id by adding or \
+updating attributes")
+        print("Usage: update <class name> <id> <attribute> <value>")
+        print()
+
     def help_all(self):
         """
         Provide documentation on the 'all' command
         """
-        print("Print all string representation of all instances")
-        print("based or not on the class name")
+        print("Print all string representation of all instances based or not \
+on the class name")
         print("Usage:\n\tall [<class name>]")
         print()
 
@@ -213,8 +274,8 @@ class HBNBCommand(cmd.Cmd):
         """
         Provide documentation on the 'show' command
         """
-        print("Print the string representation of an instance")
-        print("based on the class name and id")
+        print("Print the string representation of an instance based on \
+the class name and id")
         print("Usage:\n\tshow <class name> <id>")
         print()
 
