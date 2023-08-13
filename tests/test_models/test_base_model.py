@@ -155,3 +155,40 @@ class test_BaseModel(unittest.TestCase):
             with self.subTest(key=key):
                 self.assertEqual(type(dic[key]), str)
                 self.assertEqual(dic[key], getattr(foo, key).isoformat())
+
+    def test_kwargs(self):
+        """
+        Ensure that ``kwargs`` i.e keyword arguments are interpreted properly
+        """
+        kwargs = {'id': '1234-1234-1234',
+                  'created_at': datetime.datetime.now().isoformat(),
+                  'updated_at': datetime.datetime.now().isoformat(),
+                  'first_name': 'Edwin',
+                  'second_name': 'Ebube',
+                  '__class__': BaseModel.__name__}
+
+        foo = BaseModel(**kwargs)
+        time_attrs = ['created_at', 'updated_at']
+        for key, val in kwargs.items():
+            with self.subTest(key=key, val=val):
+                if key == '__class__':
+                    self.assertNotEqual(hasattr(foo, key), val)
+                elif key in time_attrs:
+                    fmt = '%Y-%m-%dT%H:%M:%S.%f'
+                    time_val = datetime.datetime.strptime(val, fmt)
+                    self.assertEqual(getattr(foo, key), time_val)
+                else:
+                    self.assertEqual(getattr(foo, key), val)
+
+    def test_no_kwargs(self):
+        """
+        Ensure that instance of a model is created using default values
+        when kwargs is empty
+        """
+        kwargs = {}
+        foo = BaseModel(**kwargs)
+        default_attrs = ['id', 'created_at', 'updated_at']
+
+        for key in default_attrs:
+            with self.subTest(key=key):
+                self.assertTrue(hasattr(foo, key))
