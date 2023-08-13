@@ -82,6 +82,7 @@ class test_FileStorage(unittest.TestCase):
     def test_all(self):
         """
         Ensure that the ``all`` method is implemented
+        Returns the dictionary '__objects'
         """
         storage = FileStorage()
         _cls = BaseModel
@@ -99,6 +100,7 @@ class test_FileStorage(unittest.TestCase):
     def test_new(self):
         """
         Ensure that the ``new`` method is implemented
+        Sets in '__objects' the 'obj' with key '<obj class name>.id'
         """
         storage = FileStorage()
         _cls = BaseModel
@@ -115,6 +117,30 @@ class test_FileStorage(unittest.TestCase):
         # Keep track of object
         storage.new(foo)
         self.assertIn(key, storage.all().keys())
+
+    def test_save(self):
+        """
+        Ensure that the 'save' method is implemented
+        Serializes '__objects' to the JSON file (path: __file_path)
+        """
+        storage = FileStorage()
+        _cls = BaseModel
+        self.assertFalse(os.path.exists(self.file_path))
+
+        # Empty objects
+        storage.save()
+        self.assertTrue(os.path.exists(self.file_path))
+
+        # With some objects
+        foo = _cls()
+        bar = _cls()
+        objs = [foo, bar]
+        storage.save()
+
+        for obj in objs:
+            with self.subTest(obj=obj):
+                key = test_FileStorage.get_key(obj)
+                self.assertIn(key, storage.all().keys())
 
     @staticmethod
     def get_key(obj):
