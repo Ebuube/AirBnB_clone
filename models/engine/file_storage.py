@@ -17,10 +17,20 @@ class FileStorage:
         """
         from models.base_model import BaseModel
         from models.user import User
+        from models.place import Place
+        from models.state import State
+        from models.amenity import Amenity
+        from models.review import Review
 
         # This list will be updated and the imports to
         # As we keep adding more classes
-        self.__classes = {"BaseModel": BaseModel, "User": User}
+        self.__classes = {
+                            "BaseModel": BaseModel,
+                            "User": User,
+                            "Place": Place,
+                            "State": State,
+                            "Amenity": Amenity,
+                            "Review": Review}
 
     def all(self):
         """returns the __objects dict"""
