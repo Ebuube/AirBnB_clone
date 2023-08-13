@@ -1,21 +1,21 @@
 #!/usr/bin/python3
 """
-Tests for the User model
+Tests for the Review model
 """
 from tests.test_models.test_base_model import test_BaseModel
-from models.user import User
+from models.review import Review
 
 
-class test_User(test_BaseModel):
+class test_Review(test_BaseModel):
     """
-    Define extra tests for the ``User`` class
+    Define extra tests for the ``Review`` class
     """
     def __init__(self, *args, **kwargs):
         """
         Initialization of the class' test
         """
         super().__init__(*args, **kwargs)
-        self.value = User
+        self.value = Review
         self.name = self.value.__name__
 
     def setUp(self):
@@ -34,16 +34,12 @@ class test_User(test_BaseModel):
         """
         Ensure that the correct attributes are present in the model
         Namely:
-        - email -> string
-        - password -> string
-        - first_name -> string
-        - last_name -> string
+        - place_id -> string
         """
-        _cls = User
+        _cls = Review
 
         foo = _cls()
-        attrs = {'email': str, 'password': str, 'first_name': str,
-                 'last_name': str}
+        attrs = {'place_id': str, 'user_id': str, 'text': str}
 
         for attr, attr_type in attrs.items():
             with self.subTest(attr=attr, attr_type=attr_type):

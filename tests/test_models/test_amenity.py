@@ -1,21 +1,21 @@
 #!/usr/bin/python3
 """
-Tests for the User model
+Tests for the Amenity model
 """
 from tests.test_models.test_base_model import test_BaseModel
-from models.user import User
+from models.amenity import Amenity
 
 
-class test_User(test_BaseModel):
+class test_Amenity(test_BaseModel):
     """
-    Define extra tests for the ``User`` class
+    Define extra tests for the ``Amenity`` class
     """
     def __init__(self, *args, **kwargs):
         """
         Initialization of the class' test
         """
         super().__init__(*args, **kwargs)
-        self.value = User
+        self.value = Amenity
         self.name = self.value.__name__
 
     def setUp(self):
@@ -34,16 +34,12 @@ class test_User(test_BaseModel):
         """
         Ensure that the correct attributes are present in the model
         Namely:
-        - email -> string
-        - password -> string
-        - first_name -> string
-        - last_name -> string
+        - name -> string
         """
-        _cls = User
+        _cls = Amenity
 
         foo = _cls()
-        attrs = {'email': str, 'password': str, 'first_name': str,
-                 'last_name': str}
+        attrs = {'name': str}
 
         for attr, attr_type in attrs.items():
             with self.subTest(attr=attr, attr_type=attr_type):
