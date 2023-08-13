@@ -57,7 +57,6 @@ class HBNBCommand(cmd.Cmd):
             print("** instance id missing **")
             return
 
-        #   obj_key = class_name + '.' + arg_id
         obj_key = HBNBCommand.make_key(class_name, arg_id)
 
         # Search for obj_key in non-empty storage
@@ -132,7 +131,6 @@ class HBNBCommand(cmd.Cmd):
             print("** instance id missing **")
             return
 
-        #   obj_key = class_name + arg_id
         obj_key = HBNBCommand.make_key(class_name, arg_id)
 
         # Search for obj_key in non-empty storage
@@ -167,7 +165,6 @@ class HBNBCommand(cmd.Cmd):
             print("** instance id missing **")
             return
 
-        #   obj_key = class_name + '.' + arg_id
         obj_key = HBNBCommand.make_key(class_name, arg_id)
 
         # Search for obj_key in non-empty storage
