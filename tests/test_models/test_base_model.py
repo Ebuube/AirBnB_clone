@@ -106,3 +106,52 @@ class test_BaseModel(unittest.TestCase):
         prev = foo.updated_at
         foo.save()
         self.assertNotEqual(foo.updated_at, prev)
+
+    def test_magic_str(self):
+        """
+        Ensure that the `__str__` method is implemented
+        """
+        foo = BaseModel()
+        expected_str = "[{}] ({}) {}".format(type(foo).__name__, foo.id,
+                                             foo.__dict__)
+
+        self.assertEqual(str(foo), expected_str)
+
+    def test_save(self):
+        """
+        Ensure that the ``save`` method is implemented
+        It updates the public instance attribute `updated_at` with
+        current datetime
+        """
+        foo = BaseModel()
+        self.assertTrue(hasattr(foo, 'save'))
+        prev = foo.updated_at
+        foo.save()
+        new = datetime.datetime.now()
+        self.assertTrue(new >= foo.updated_at and foo.updated_at > prev)
+
+    def test_to_dict(self):
+        """
+        Ensure that the ``to_dict`` method is implemented
+        It returns a dictionary a dictionary containing all keys/values
+        of `__dict__`
+        """
+        foo = BaseModel()
+        self.assertTrue(hasattr(foo, 'to_dict'))
+
+        dic = foo.to_dict()
+        # Ensure `__class__` name is the name of the class of the object
+        self.assertTrue(hasattr(dic, '__class__'))
+        self.assertEqual(dic['__class__'], type(foo).__name__)
+
+        # 'created_at' and 'updated_at' attributes must be converted to strings
+        # format: %Y-%m-%dT%H:%M:%S.%f
+        fmt = '%Y-%m-%dT%H:%M:%S.%f'
+        self.assertEqual(type(dic['created_at']), str)
+        self.assertEqual(type(dic['updated_at']), str)
+
+        time_attrs = ['created_at', 'updated_at']
+        for key in time_attrs:
+            with self.subTest(key=key):
+                self.assertEqual(type(dic[key]), str)
+                self.assertEqual(dic[key], getattr(foo, key).isoformat())
