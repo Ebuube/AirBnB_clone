@@ -11,6 +11,7 @@ from models.user import User
 from models.state import State
 from models.city import City
 from models.amenity import Amenity
+from models.place import Place
 from tests import config
 
 
@@ -128,7 +129,7 @@ class test_FileStorage(unittest.TestCase):
         Serializes '__objects' to the JSON file (path: __file_path)
         """
         storage = FileStorage()
-        _classes = [BaseModel, User, State, City, Amenity]
+        _classes = [BaseModel, User, State, City, Amenity, Place]
 
         # These are individual tests for the classes
         # combined in one method.
@@ -162,7 +163,7 @@ class test_FileStorage(unittest.TestCase):
         If the files doesn't exist, no exception should be raised
         """
         storage = FileStorage()
-        _classes = [BaseModel, User, State, City, Amenity]
+        _classes = [BaseModel, User, State, City, Amenity, Place]
 
         # These are individual tests for the classes
         # combined in one method.
