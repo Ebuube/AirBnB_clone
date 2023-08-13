@@ -231,6 +231,16 @@ class HBNBCommand(cmd.Cmd):
         """
         print("Quit command to exit the program\n")
 
+    def help_EOF(self):
+        """
+        Provide documentation on the EOF command
+        """
+        print("End of File to signal exit to the program")
+        print("Usage:")
+        print("\t* EOF")
+        print("\t* <CTRL + D>")
+        print()
+
 
 if __name__ == '__main__':
     HBNBCommand().cmdloop()
