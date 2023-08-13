@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 import uuid
 from datetime import datetime
-from models import storage
+import models
 
 
 class BaseModel:
@@ -17,8 +17,8 @@ class BaseModel:
         updated_at: the datetime updates anytime any info in the
                      object is updated
         """
-        if kwargs:
-                        for key, value in kwargs.items():
+        if kwargs:  # changed
+            for key, value in kwargs.items():
                 if key == '__class__':
                     continue
                 if key == 'created_at' or key == 'updated_at':
@@ -27,11 +27,11 @@ class BaseModel:
                         )
                 else:
                     setattr(self, key, value)
-        else:
-        self.id = str(uuid.uuid4())
-        self.created_at = datetime.now()
-        self.updated_at = datetime.now()
-        storage.new(self)
+        else:   # changed
+            self.id = str(uuid.uuid4())
+            self.created_at = datetime.now()
+            self.updated_at = datetime.now()
+            models.storage.new(self)
 
     def __str__(self):
         """
@@ -39,7 +39,8 @@ class BaseModel:
         it should print:
         [<class name>] (<self.id>) <self.__dict__>
         """
-        return "[{}] ([]) {}".format(
+        # changed
+        return "[{}] ({}) {}".format(
                 self.__class__.__name__, self.id, self.__dict__)
 
     def save(self):
@@ -48,16 +49,16 @@ class BaseModel:
         updated
         """
         self.updated_at = datetime.now()
-        storage.new(self)
-        storage.save()
+        # models.storage.new(self)
+        models.storage.save()
 
     def to_dict(self):
         """
         return a dictionary containing all the key/values
         of ___dict__ od the instance
         """
-        dic_of_obj = self.__dict__.copy
-        dic_of_obj["__class__"] == type(self).__name__
-        dic_of_obj["created_at"] == self.created_at.isoformat()
-        dic_of_obj["updated_at"] == self.update_at.isoformat()
+        dic_of_obj = self.__dict__.copy()   # changed
+        dic_of_obj.update({"__class__": type(self).__name__})   # changed
+        dic_of_obj["created_at"] = self.created_at.isoformat()  # changed
+        dic_of_obj["updated_at"] = self.updated_at.isoformat()  # changed
         return dic_of_obj
