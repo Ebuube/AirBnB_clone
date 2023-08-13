@@ -10,6 +10,7 @@ from models.base_model import BaseModel
 from models.user import User
 from models.state import State
 from models.city import City
+from models.amenity import Amenity
 from tests import config
 
 
@@ -127,23 +128,30 @@ class test_FileStorage(unittest.TestCase):
         Serializes '__objects' to the JSON file (path: __file_path)
         """
         storage = FileStorage()
-        _cls = BaseModel
-        self.assertFalse(os.path.exists(self.file_path))
+        _classes = [BaseModel, User, State, City, Amenity]
 
-        # Empty objects
-        storage.save()
-        self.assertTrue(os.path.exists(self.file_path))
+        # These are individual tests for the classes
+        # combined in one method.
+        for _cls in _classes:
+            self.setUp()
 
-        # With some objects
-        foo = _cls()
-        bar = _cls()
-        objs = [foo, bar]
-        storage.save()
+            self.assertFalse(os.path.exists(self.file_path))
 
-        for obj in objs:
-            with self.subTest(obj=obj):
-                key = test_FileStorage.get_key(obj)
-                self.assertIn(key, storage.all().keys())
+            # Empty objects
+            storage.save()
+            self.assertTrue(os.path.exists(self.file_path))
+
+            # With some objects
+            foo = _cls()
+            bar = _cls()
+            objs = [foo, bar]
+            storage.save()
+
+            for obj in objs:
+                with self.subTest(obj=obj):
+                    key = test_FileStorage.get_key(obj)
+                    self.assertIn(key, storage.all().keys())
+            self.tearDown()
 
     def test_reload(self):
         """
@@ -154,192 +162,34 @@ class test_FileStorage(unittest.TestCase):
         If the files doesn't exist, no exception should be raised
         """
         storage = FileStorage()
-        _cls = BaseModel
+        _classes = [BaseModel, User, State, City, Amenity]
 
-        self.assertFalse(os.path.exists(self.file_path))
-        # The line of code below should not raise an error
-        storage.reload()
+        # These are individual tests for the classes
+        # combined in one method.
+        for _cls in _classes:
+            self.setUp()
 
-        # Serialize some objects
-        foo = _cls()
-        bar = _cls()
-        storage.save()
-        self.assertTrue(os.path.exists(self.file_path))
+            self.assertFalse(os.path.exists(self.file_path))
+            # The line of code below should not raise an error
+            storage.reload()
 
-        # Deserialize some objects
-        objs = [foo, bar]
-        new_storage = FileStorage()
-        new_storage.reload()
+            # Serialize some objects
+            foo = _cls()
+            bar = _cls()
+            storage.save()
+            self.assertTrue(os.path.exists(self.file_path))
 
-        for obj in objs:
-            with self.subTest(obj=obj):
-                key = test_FileStorage.get_key(obj)
-                self.assertIn(key, new_storage.all().keys())
+            # Deserialize some objects
+            objs = [foo, bar]
+            new_storage = FileStorage()
+            new_storage.reload()
 
-    def test_save_User(self):
-        """
-        Ensure that the 'save' method is implemented for 'User' model
-        Serializes '__objects' to the JSON file (path: __file_path)
-        """
-        storage = FileStorage()
-        _cls = User
-        self.assertFalse(os.path.exists(self.file_path))
+            for obj in objs:
+                with self.subTest(obj=obj):
+                    key = test_FileStorage.get_key(obj)
+                    self.assertIn(key, new_storage.all().keys())
 
-        # Empty objects
-        storage.save()
-        self.assertTrue(os.path.exists(self.file_path))
-
-        # With some objects
-        foo = _cls()
-        bar = _cls()
-        objs = [foo, bar]
-        storage.save()
-
-        for obj in objs:
-            with self.subTest(obj=obj):
-                key = test_FileStorage.get_key(obj)
-                self.assertIn(key, storage.all().keys())
-
-    def test_reload_User(self):
-        """
-        Ensure that the 'reload' method is implemented for 'User' model
-        Deserializes the JSON file to '__objects'
-        Only if the JSON file (__file_path) exists;
-        otherwise, do nothing.
-        If the files doesn't exist, no exception should be raised
-        """
-        storage = FileStorage()
-        _cls = User
-
-        self.assertFalse(os.path.exists(self.file_path))
-        # The line of code below should not raise an error
-        storage.reload()
-
-        # Serialize some objects
-        foo = _cls()
-        bar = _cls()
-        storage.save()
-        self.assertTrue(os.path.exists(self.file_path))
-
-        # Deserialize some objects
-        objs = [foo, bar]
-        new_storage = FileStorage()
-        new_storage.reload()
-
-        for obj in objs:
-            with self.subTest(obj=obj):
-                key = test_FileStorage.get_key(obj)
-                self.assertIn(key, new_storage.all().keys())
-
-    def test_save_State(self):
-        """
-        Ensure that the 'save' method is implemented for 'State' model
-        Serializes '__objects' to the JSON file (path: __file_path)
-        """
-        storage = FileStorage()
-        _cls = State
-        self.assertFalse(os.path.exists(self.file_path))
-
-        # Empty objects
-        storage.save()
-        self.assertTrue(os.path.exists(self.file_path))
-
-        # With some objects
-        foo = _cls()
-        bar = _cls()
-        objs = [foo, bar]
-        storage.save()
-
-        for obj in objs:
-            with self.subTest(obj=obj):
-                key = test_FileStorage.get_key(obj)
-                self.assertIn(key, storage.all().keys())
-
-    def test_reload_State(self):
-        """
-        Ensure that the 'reload' method is implemented for 'State' model
-        Deserializes the JSON file to '__objects'
-        Only if the JSON file (__file_path) exists;
-        otherwise, do nothing.
-        If the files doesn't exist, no exception should be raised
-        """
-        storage = FileStorage()
-        _cls = State
-
-        self.assertFalse(os.path.exists(self.file_path))
-        # The line of code below should not raise an error
-        storage.reload()
-
-        # Serialize some objects
-        foo = _cls()
-        bar = _cls()
-        storage.save()
-        self.assertTrue(os.path.exists(self.file_path))
-
-        # Deserialize some objects
-        objs = [foo, bar]
-        new_storage = FileStorage()
-        new_storage.reload()
-
-        for obj in objs:
-            with self.subTest(obj=obj):
-                key = test_FileStorage.get_key(obj)
-                self.assertIn(key, new_storage.all().keys())
-
-    def test_save_City(self):
-        """
-        Ensure that the 'save' method is implemented for 'City' model
-        Serializes '__objects' to the JSON file (path: __file_path)
-        """
-        storage = FileStorage()
-        _cls = City
-        self.assertFalse(os.path.exists(self.file_path))
-
-        # Empty objects
-        storage.save()
-        self.assertTrue(os.path.exists(self.file_path))
-
-        # With some objects
-        foo = _cls()
-        bar = _cls()
-        objs = [foo, bar]
-        storage.save()
-
-        for obj in objs:
-            with self.subTest(obj=obj):
-                key = test_FileStorage.get_key(obj)
-                self.assertIn(key, storage.all().keys())
-
-    def test_reload_City(self):
-        """
-        Ensure that the 'reload' method is implemented for 'City' model
-        Deserializes the JSON file to '__objects'
-        Only if the JSON file (__file_path) exists;
-        otherwise, do nothing.
-        If the files doesn't exist, no exception should be raised
-        """
-        storage = FileStorage()
-        _cls = City
-
-        self.assertFalse(os.path.exists(self.file_path))
-        # The line of code below should not raise an error
-        storage.reload()
-
-        # Serialize some objects
-        foo = _cls()
-        bar = _cls()
-        storage.save()
-        self.assertTrue(os.path.exists(self.file_path))
-
-        # Deserialize some objects
-        objs = [foo, bar]
-        new_storage = FileStorage()
-        new_storage.reload()
-
-        for obj in objs:
-            with self.subTest(obj=obj):
-                key = test_FileStorage.get_key(obj)
-                self.assertIn(key, new_storage.all().keys())
+            self.tearDown()
 
     @staticmethod
     def get_key(obj):
