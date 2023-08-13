@@ -110,7 +110,7 @@ class test_FileStorage(unittest.TestCase):
                   'first_name': 'Edwin',
                   'last_name': 'Ebube'}
         foo = _cls(**kwargs)
-        # Object is not yet saved
+        # Ensure object created from dictionary is not automaticall saved
         key = test_FileStorage.get_key(foo)
         self.assertNotIn(key, storage.all().keys())
 
@@ -141,6 +141,37 @@ class test_FileStorage(unittest.TestCase):
             with self.subTest(obj=obj):
                 key = test_FileStorage.get_key(obj)
                 self.assertIn(key, storage.all().keys())
+
+    def test_reload(self):
+        """
+        Ensure that the 'reload' method is implemented
+        Deserializes the JSON file to '__objects'
+        Only if the JSON file (__file_path) exists;
+        otherwise, do nothing.
+        If the files doesn't exist, no exception should be raised
+        """
+        storage = FileStorage()
+        _cls = BaseModel
+
+        self.assertFalse(os.path.exists(self.file_path))
+        # The line of code below should not raise an error
+        storage.reload()
+
+        # Serialize some objects
+        foo = _cls()
+        bar = _cls()
+        storage.save()
+        self.assertTrue(os.path.exists(self.file_path))
+
+        # Deserialize some objects
+        objs = [foo, bar]
+        new_storage = FileStorage()
+        new_storage.reload()
+
+        for obj in objs:
+            with self.subTest(obj=obj):
+                key = test_FileStorage.get_key(obj)
+                self.assertIn(key, new_storage.all().keys())
 
     @staticmethod
     def get_key(obj):
