@@ -69,3 +69,16 @@ class test_BaseModel(unittest.TestCase):
             result = style.check_files(paths=path)
             self.assertEqual(result.total_errors, 0, "Fix pep8")
             config.pep8_checked = True
+
+    def test_BaseModel_id(self):
+        """
+        Ensure that ``BaseModel.id`` is implemented
+        """
+        # id is of right type
+        foo = BaseModel()
+        self.assertTrue(hasattr(foo, 'id'))
+        self.assertTrue(type(foo.id), str)
+
+        # Each instance has a different id
+        bar = BaseModel()
+        self.assertNotEqual(foo.id, bar.id)
