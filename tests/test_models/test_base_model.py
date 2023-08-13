@@ -6,6 +6,7 @@ import unittest
 import os
 import pep8
 import json
+import datetime
 from models.base_model import BaseModel
 from tests import config
 
@@ -82,3 +83,26 @@ class test_BaseModel(unittest.TestCase):
         # Each instance has a different id
         bar = BaseModel()
         self.assertNotEqual(foo.id, bar.id)
+
+    def test_BaseModel_created_at(self):
+        """
+        Ensure that ``BaseModel.id`` is implemented
+        """
+        # created_at attribute is of right type
+        foo = BaseModel()
+        self.assertTrue(hasattr(foo, 'created_at'))
+        self.assertTrue(type(foo.created_at), datetime)
+
+    def test_BaseModel_updated_at(self):
+        """
+        Ensure that ``BaseModel.id`` is implemented
+        """
+        # updated_at attribute is of right type
+        foo = BaseModel()
+        self.assertTrue(hasattr(foo, 'updated_at'))
+        self.assertTrue(type(foo.updated_at), datetime)
+
+        # It should be updated every time an object is saved
+        prev = foo.updated_at
+        foo.save()
+        self.assertNotEqual(foo.updated_at, prev)
