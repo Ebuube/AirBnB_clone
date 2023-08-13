@@ -28,6 +28,7 @@ class HBNBCommand(cmd.Cmd):
                 "City": City,
                 "Amenity": Amenity,
                 "Review": Review}
+    not_updatable = ["id", "created_at", "updated_at"]
 
     # COMMANDS
 
@@ -72,6 +73,12 @@ class HBNBCommand(cmd.Cmd):
         except IndexError:
             print("** attribute name missing **")
             return
+
+        # Ensure attribute can be updated
+        if attr in HBNBCommand.not_updatable:
+            print("** attribute cannot be updated **")
+            return
+
         try:
             val = args[3]
         except IndexError:
@@ -80,12 +87,6 @@ class HBNBCommand(cmd.Cmd):
 
         # Cast value to the required type
         # The order must be respected
-        """
-        if val == int(val):
-            val = int(val)
-        if val == float(val):
-            val = float(val)
-        """
         try:
             test = float(val)
             if test == int(test):
