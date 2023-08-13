@@ -16,10 +16,11 @@ class FileStorage:
         Initialize some instance specific variables
         """
         from models.base_model import BaseModel
+        from models.user import User
 
         # This list will be updated and the imports to
         # As we keep adding more classes
-        self.__classes = {"BaseModel": BaseModel}
+        self.__classes = {"BaseModel": BaseModel, "User": User}
 
     def all(self):
         """returns the __objects dict"""

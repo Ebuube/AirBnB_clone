@@ -6,6 +6,7 @@ import cmd
 import sys
 import shlex
 from models.base_model import BaseModel
+from models.user import User
 from models import storage
 
 
@@ -14,7 +15,7 @@ class HBNBCommand(cmd.Cmd):
     This class specifies the commands available for the console
     """
     prompt = '(hbnb) '
-    classes = {"BaseModel": BaseModel}
+    classes = {"BaseModel": BaseModel, "User": User}
 
     # COMMANDS
 
