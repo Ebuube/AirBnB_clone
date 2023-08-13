@@ -7,6 +7,7 @@ import unittest
 import datetime
 from models.engine.file_storage import FileStorage
 from models.base_model import BaseModel
+from models.user import User
 from tests import config
 
 
@@ -152,6 +153,61 @@ class test_FileStorage(unittest.TestCase):
         """
         storage = FileStorage()
         _cls = BaseModel
+
+        self.assertFalse(os.path.exists(self.file_path))
+        # The line of code below should not raise an error
+        storage.reload()
+
+        # Serialize some objects
+        foo = _cls()
+        bar = _cls()
+        storage.save()
+        self.assertTrue(os.path.exists(self.file_path))
+
+        # Deserialize some objects
+        objs = [foo, bar]
+        new_storage = FileStorage()
+        new_storage.reload()
+
+        for obj in objs:
+            with self.subTest(obj=obj):
+                key = test_FileStorage.get_key(obj)
+                self.assertIn(key, new_storage.all().keys())
+
+    def test_save_User(self):
+        """
+        Ensure that the 'save' method is implemented for 'User' model
+        Serializes '__objects' to the JSON file (path: __file_path)
+        """
+        storage = FileStorage()
+        _cls = User
+        self.assertFalse(os.path.exists(self.file_path))
+
+        # Empty objects
+        storage.save()
+        self.assertTrue(os.path.exists(self.file_path))
+
+        # With some objects
+        foo = _cls()
+        bar = _cls()
+        objs = [foo, bar]
+        storage.save()
+
+        for obj in objs:
+            with self.subTest(obj=obj):
+                key = test_FileStorage.get_key(obj)
+                self.assertIn(key, storage.all().keys())
+
+    def test_reload_User(self):
+        """
+        Ensure that the 'reload' method is implemented for 'User' model
+        Deserializes the JSON file to '__objects'
+        Only if the JSON file (__file_path) exists;
+        otherwise, do nothing.
+        If the files doesn't exist, no exception should be raised
+        """
+        storage = FileStorage()
+        _cls = User
 
         self.assertFalse(os.path.exists(self.file_path))
         # The line of code below should not raise an error
