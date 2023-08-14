@@ -92,7 +92,7 @@ class test_FileStorage(unittest.TestCase):
         """
         storage = FileStorage()
         _cls = BaseModel
-        self.assertTrue(storage, 'all')
+        self.assertTrue(hasattr(storage, 'all'))
         self.assertEqual(type(storage.all()), dict)
 
         # Objects
@@ -110,6 +110,7 @@ class test_FileStorage(unittest.TestCase):
         """
         storage = FileStorage()
         _cls = BaseModel
+        self.assertTrue(hasattr(storage, 'new'))
         kwargs = {'id': '1234-1234-1234',
                   'created_at': datetime.datetime.now().isoformat(),
                   'updated_at': datetime.datetime.now().isoformat(),

@@ -1,5 +1,11 @@
 # Some files to be ignored by git
 
+# Vim temporay files
+*.swp
+
+# Emacs tempory files
+~*
+
 # Storage files
 *.json
 

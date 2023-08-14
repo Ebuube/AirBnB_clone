@@ -86,7 +86,7 @@ class test_BaseModel(unittest.TestCase):
 
     def test_BaseModel_created_at(self):
         """
-        Ensure that ``BaseModel.id`` is implemented
+        Ensure that ``BaseModel.created_at`` is implemented
         """
         # created_at attribute is of right type
         foo = BaseModel()
@@ -95,7 +95,7 @@ class test_BaseModel(unittest.TestCase):
 
     def test_BaseModel_updated_at(self):
         """
-        Ensure that ``BaseModel.id`` is implemented
+        Ensure that ``BaseModel.updated_at`` is implemented
         """
         # updated_at attribute is of right type
         foo = BaseModel()
