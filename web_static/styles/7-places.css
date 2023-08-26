@@ -1,0 +1,27 @@
+/* STYLING FOR PLACES */
+section.places h1 {
+    font-size:30px;
+    padding-left:30px;
+}
+
+.places ul {
+    text-align:center;
+}
+
+.places li {
+    list-style:none;
+    display:inline-block;
+}
+
+.places article {
+    width:390px;
+    padding:20px;
+    margin:20px;
+    border:#FF5A5F 1px solid;
+    border-radius:4px;
+    text-align:center;
+}
+
+.places article h2 {
+    font-size:30px;
+}
