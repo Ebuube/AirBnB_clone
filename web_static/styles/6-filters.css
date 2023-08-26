@@ -90,6 +90,7 @@ ul.popover .state {
 
 .state ul {
     margin-left:-11px;
+    margin-top:3px;
 }
 
 .filters .locations .popover {
