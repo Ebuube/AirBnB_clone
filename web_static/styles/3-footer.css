@@ -12,3 +12,8 @@ footer p {
     text-align:center;
     line-height:30px;
 }
+
+.pagefooter {
+    /* Prevent hiding items beneath the fixed and remove footer */
+    margin-top:60px;    /* same as footer height */
+}
