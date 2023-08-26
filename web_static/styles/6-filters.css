@@ -34,15 +34,15 @@ section button:hover {
 }
 
 /* FILTER OBPIONS */
-.locations,
-.amenities {
+.filters .locations,
+.filters .amenities {
     height:100%;
     width:25%;
     float:left;
     padding-left:5%;
 }
 
-.locations {
+.filters .locations {
     border-right:1px #DDDDDD solid;
 }
 
@@ -58,7 +58,7 @@ section button:hover {
 }
 
 /* POPOVERS */
-ul.popover {
+.filters ul.popover {
     position:relative;  /* Make it display on top of other elements */
     display:none;   /* a popover is always invisible unless hovered */
     background:#FAFAFA;
@@ -74,7 +74,7 @@ ul.popover {
     box-shadow:0px 5px 12px 0px rgba(0, 0, 0, 0.112);
 }
 
-.state h2 {
+.locations .state h2 {
     font-size:16px;
     margin-bottom:-1px;
 }
@@ -92,12 +92,12 @@ ul.popover .state {
     margin-left:-11px;
 }
 
-.locations .popover {
+.filters .locations .popover {
     padding-top:16px;
 }
 
 /* Hover on filters for display of menu */
-.locations:hover .popover,
-.amenities:hover .popover {
+.filters .locations:hover .popover,
+.filters .amenities:hover .popover {
     display:block;
 }
