@@ -189,6 +189,7 @@ section.places h1 {
 .places .flex_list {
     display:flex;
     flex-flow:row wrap;
+    justify-content:center;
 }
 
 .flex_list .flex_list_item {
