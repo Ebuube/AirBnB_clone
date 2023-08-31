@@ -135,5 +135,5 @@ This goal of this sub-project is to expose all the objects stored via a JSON web
 With knowledge in JQuery, we will load objects from the client side using our own RESTful API
 
 ## Authors
-*	Ebube Gideon - [@holbertonschool.com](onwutaebubegideon1555@gmail.com)
-*	Edwin Aikins - @holbertonschool.com
+*	Ebube Gideon - [@holbertonschool.com](mailto:onwutaebubegideon1555@gmail.com)
+*	Edwin Aikins - [@holbertonschool.com](mailto:arkoaikins@gmail.com)
