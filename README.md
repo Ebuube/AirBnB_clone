@@ -1,7 +1,12 @@
 # AirBnB_clone - The console
 
 
-This major aim of this project is to deploy on a server a simple copy of the [AirBnB website](https://www.airbnb.com). It consists of the following:
+
+https://github.com/user-attachments/assets/39f8e036-5eba-4a40-898d-58bbb5bcc3a9
+
+
+
+The major aim of this project is to deploy on a server a simple copy of the [AirBnB website](https://www.airbnb.com). It consists of the following:
 
 *	A command interpreter to manipulate data without a visual interface, like in a Shell (perfect for development and debugging)
 *	A website (the front-end) that shows the final product to everybody: static and dynamic
